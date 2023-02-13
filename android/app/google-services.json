@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "53912785421",
+    "project_id": "qlcafeapp",
+    "storage_bucket": "qlcafeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53912785421:android:76c576f0e5a0a1bd8cfb44",
+        "android_client_info": {
+          "package_name": "com.no1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "53912785421-ogmuop98ac3hbsn48l5bm9ip34dhja6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnxNmD9lTnWYfiPRlH1tmrpd-2G8KPTek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "53912785421-ogmuop98ac3hbsn48l5bm9ip34dhja6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
