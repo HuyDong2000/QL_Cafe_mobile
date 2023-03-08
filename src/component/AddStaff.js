@@ -6,16 +6,14 @@ import storage from '@react-native-firebase/storage';
 import { utils } from '@react-native-firebase/app';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { PermissionsAndroid } from 'react-native';
-import {useRoute} from '@react-navigation/native'
 const AddStaff = () => {
-    const route = useRoute()
-    const [status,setStatus] = useState(route.params.data.status)
-    const [name,setName]=useState(route.params.data.name)
-    const [address,setAddress] = useState(route.params.data.address)
-    const [phonenumber,setPhonenumber] = useState(route.params.data.phonenumber)
-    const [userName,setUserName] = useState(route.params.data.userName)
-    const [passwork,setPasswork] = useState(route.params.data.passwork)
-    const [date,setDate] = useState(route.params.data.Date)
+    const [status,setStatus] = useState(false)
+    const [name,setName]=useState('')
+    const [address,setAddress] = useState('')
+    const [phonenumber,setPhonenumber] = useState('')
+    const [userName,setUserName] = useState('')
+    const [passwork,setPasswork] = useState('')
+    const [date,setDate] = useState('')
     useEffect(() => {
        
     }, [])
@@ -39,7 +37,7 @@ const AddStaff = () => {
         <ScrollView>
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Sửa nhân viên </Text>
+                <Text style={styles.headerText}>Thêm nhân viên </Text>
             </View>
             <TextInput placeholder='Họ tên ' style={styles.inputStyle} 
             value={name}

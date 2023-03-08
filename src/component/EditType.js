@@ -2,54 +2,43 @@
 import React, { Component } from 'react';
 import {
     Text, StyleSheet, View, SafeAreaView, StatusBar, Image, TextInput, KeyboardAvoidingView, ScrollView
-    , TouchableOpacity, Button, FlatList,Alert
+    , TouchableOpacity, Button, FlatList , Alert
 } from 'react-native';
 import { create } from 'react-test-renderer';
 
 import { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 
-const ScreenSatff = ({ navigation }) => {
+const EditType = ({ navigation }) => {
     const [items, setItems] = useState([]);
-    const [oldData, setoldData] = useState([]);
     useEffect(() => {
         getItems();
     }, [])
     const getItems = () => {
         firestore()
-            .collection('Satff')
+            .collection('type')
             .get()
             .then(querySnapshot => {
-                console.log('Total Satff: ', querySnapshot.size);
+                console.log('Total product: ', querySnapshot.size);
                 let tempData = []
                 querySnapshot.forEach(documentSnapshot => {
-                    console.log('Satff ID: ', documentSnapshot.id, documentSnapshot.data());
+                    console.log('Product ID: ', documentSnapshot.id, documentSnapshot.data());
                     tempData.push({
                         id: documentSnapshot.id,
                         data: documentSnapshot.data(),
                     })
                 });
                 setItems(tempData)
-                setoldData(tempData)
             });
     }
     const Removingdata = (docId) => {
         firestore()
-            .collection('product')
+            .collection('type')
             .doc(docId)
             .delete()
             .then(() => {
                 console.log('User deleted!');
             });
-    }
-    const onSearch = (text) =>{
-        if(text ==''){
-            setItems(oldData)
-        }else{let tempData = items.filter(item =>{
-            return item.data.name.toUpperCase().indexOf(text.toUpperCase())>-1
-        })
-        setItems(tempData)}
-        
     }
     const Confirm = (id) =>{
         Alert.alert("Details","Do you want to delete this item?",[
@@ -60,7 +49,7 @@ const ScreenSatff = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={{color: '#1C1C1C',fontSize: 30}}>QUẢN LÝ NHÂN VIÊN</Text>
+                <Text style={{color: '#1C1C1C',fontSize: 30}}>Manage Type</Text>
             </View>
             <View style={{ alignItems: 'center' }}>
                 <Image
@@ -75,25 +64,13 @@ const ScreenSatff = ({ navigation }) => {
             </View>
             <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
                 <TouchableOpacity style={{ width: 60, height: 60, borderRadius: 50, elevation: 0.2 , backgroundColor:'#fff', alignItems: 'center', justifyContent:'center'}}
-                   onPress={() => { navigation.navigate('AddStaff') }}
+                   onPress={() => { navigation.navigate('AddType') }}
                 >
                     <Image source={require('../image/add-outline.png')} style={{ width: 50, height: 50}}>
                     </Image>
                 </TouchableOpacity>
             </View>
             <SafeAreaView style={styles.titleSafeAreaView}>
-                <View style={{
-                    width: '90%', backgroundColor: '#fff', height: 50, marginTop: 15, marginLeft: 20, borderRadius: 10, alignItems: 'center', flexDirection: 'row'
-                    , borderWidth: 2
-                }}>
-                    <Image source={require('../image/search.jpg')} style={{ width: 30, height: 30, marginLeft: 10 }}></Image>
-                    <TextInput
-                        placeholder='Search ... '
-                        onChangeText={txt => { onSearch(txt) }}
-                    >
-
-                    </TextInput>
-                </View>
                 <FlatList data={items}
                     renderItem={({ item, index }) => {
                         return (
@@ -101,17 +78,12 @@ const ScreenSatff = ({ navigation }) => {
                                 <View style={{ width: 200, alignSelf: 'center',flexDirection:'row' }}>
                                     <View style={{width: '60%', margin:10}}>
                                         <Text style={{fontSize: 18,fontWeight : '700'}}>{item.data.name}</Text>
-                                        <View style={{flexDirection: 'row'}}>
-                                            <Text style={{fontSize: 18,color:'green',fontWeight:'700'}}>
-                                                {item.data.Date}
-                                            </Text>
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row-reverse', flex: 1, alignSelf: 'center', marginLeft: 10 }}>
                                     <TouchableOpacity style={{ padding: 5 }}
                                         onPress={() => {
-                                            navigation.navigate('EditSatff', {
+                                            navigation.navigate('EditTypeDetail', {
                                                 data: item.data,
                                                 id: item.id,
                                             })
@@ -122,7 +94,7 @@ const ScreenSatff = ({ navigation }) => {
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={{ padding: 5 }}
-                                        onPress={() => { Confirm(item.id) }}
+                                        onPress={() => {Confirm(item.id)}}
                                     >
                                         <Image source={require('../image/close-circle-outline.png')}
                                             style={{ width: 30, height: 30 }}></Image>
@@ -152,7 +124,7 @@ const ScreenSatff = ({ navigation }) => {
     )
 }
 
-export default ScreenSatff;
+export default EditType;
 const styles = StyleSheet.create({
     titleSafeAreaView: {
         flex: 1,
