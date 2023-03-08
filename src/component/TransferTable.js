@@ -3,16 +3,16 @@ import {
     Text, StyleSheet, View, SafeAreaView, StatusBar, Image, TextInput, KeyboardAvoidingView, ScrollView
     , TouchableOpacity, Button, FlatList
 } from 'react-native';
-
+import { useRoute } from '@react-navigation/native'
 import uuid from 'react-native-uuid'
 import { create } from 'react-test-renderer';
-/* man hinh ban  */
+/* man chuyen ban   */
 import { useEffect, useState } from 'react'
 
 import firestore from '@react-native-firebase/firestore';
 
 const Items = ({ navigation }) => {
-
+    const route = useRoute()
     const [itemsOpen, setItemsOpen] = useState([]);
     const [itemsClose, setItemsClose] = useState([]);
     const [idTable, setIdTable] = useState('')
@@ -24,6 +24,9 @@ const Items = ({ navigation }) => {
         getItemsOpen();
         getItemsClose()
         getItemsBill();
+        console.log(route.params.Cart)
+        console.log(route.params.id)
+        console.log(route.params.idBill)
     }, [])
 
     const getItemsOpen = () => {
@@ -86,18 +89,18 @@ const Items = ({ navigation }) => {
                 setDataBill(tempData)
             });
     }
-    const billId = uuid.v4()
+    //const billId = uuid.v4()
     const saveBillTable = (idTable, nameTable) => {
         firestore()
             .collection('billtable')
-            .doc(billId)
+            .doc(route.params.idBill)
             .set({
                 idTable: idTable,
                 nameTable: nameTable,
                 statusBill: statusBill,
-                idBill: billId,
+                idBill: route.params.idBill,
                 statusProduct: true,
-                cart: [],
+                cart: route.params.Cart,
             })
             .then(() => {
                 console.log('User added!');
@@ -105,7 +108,7 @@ const Items = ({ navigation }) => {
         console.log(statusBill)
         console.log(idTable)
         console.log(nameTable)
-        console.log(billId)
+        console.log(route.params.idBill)
         firestore()
             .collection('table')
             .doc(idTable)
@@ -115,7 +118,19 @@ const Items = ({ navigation }) => {
             .then(() => {
                 console.log('User updated!');
             });
-    }
+        firestore()
+            .collection('table')
+            .doc(route.params.id)
+            .update({
+                status: false
+            })
+            .then(() => {
+                console.log('User updated!');
+            });
+        }
+
+
+
     const checkTable = (item) => {
         let check = false
         let tempData = []
@@ -129,12 +144,11 @@ const Items = ({ navigation }) => {
     }
     return (
         <View style={{flex : 1 ,margin : 5 }}>
-            
-             <View style={{width:'90%' , height : 50 ,marginTop:5,  borderBottomWidth: 1 ,marginLeft : 20
+             <View style={{width:'90%' , height : 50 ,marginTop:5,  borderBottomWidth: 2 ,marginLeft : 10
             ,justifyContent : 'center'}}>
-                <Text style={{fontSize : 20 , fontWeight :'700' }}>Bàn trống </Text>
+                <Text style={{fontSize : 20 , fontWeight :'700' }}>Chuyển Sang Bàn </Text>
             </View>
-            <SafeAreaView style={{height : '40%'}}>
+            <SafeAreaView style={{height : '60%'}}>
             <FlatList data={itemsClose}
                 numColumns={2}
                 renderItem={({ item, index }) => {
@@ -147,23 +161,8 @@ const Items = ({ navigation }) => {
                                     marginTop: 10, alignItems: "center", justifyContent: 'center', flexDirection: 'row',
                                 }}
                                     onPress={() => {
-                                        if (checkTable(item) == true) {
-                                            let idBill = ''
-                                            let tempData = []
-                                            tempData = itemBill
-                                            tempData.map(itm => {
-                                                if (itm.data.idTable == item.id) {
-                                                     idBill = itm.id
-                                                }
-                                            })
-                                            navigation.navigate('Oder', { id: idBill })
-                                        } else {
-                                            console.log('flase')
-                                            saveBillTable(item.id, item.data.name),
-                                                navigation.navigate('Oder', { id: billId })
-                                        }
 
-                                        //saveBillTable(item.id,item.data.name),
+                                        saveBillTable(item.id,item.data.name)
                                         //navigation.navigate('Oder',{id: billId}) 
                                     }}
                                 >
@@ -179,58 +178,21 @@ const Items = ({ navigation }) => {
             >
             </FlatList>
             </SafeAreaView>
-            <View style={{width:'90%' , height : 50 ,marginTop:5,  borderBottomWidth: 2 ,marginLeft : 20
-            ,justifyContent : 'center'}}>
-                <Text style={{fontSize : 20 , fontWeight :'700' }}>Bàn bàn có khách </Text>
-            </View>
-            <SafeAreaView style={{height:'40%'}}>
-                <FlatList data={itemsOpen}
-                    numColumns={2}
-                    renderItem={({ item, index }) => {
-                        return (
-                            <View style={styles.container}>
-                                <View style={styles.box}>
-                                    <Text style={{ fontSize: 20, fontWeight: '700' }}>{item.data.name}</Text>
-                                    <TouchableOpacity style={{
-                                        height: 40, width: 100, borderRadius: 10, backgroundColor: '#FFFF99',
-                                        marginTop: 10, alignItems: "center", justifyContent: 'center', flexDirection: 'row',
-                                    }}
-                                        onPress={() => {
-                                            if (checkTable(item) == true) {
-                                                let idBill = ''
-                                                let tempData = []
-                                                tempData = itemBill
-                                                tempData.map(itm => {
-                                                    if (itm.data.idTable == item.id) {
-                                                        idBill = itm.id
-                                                    }
-                                                })
-                                                navigation.navigate('Oder', { id: idBill })
-                                            } else {
-                                                console.log('flase')
-                                                saveBillTable(item.id, item.data.name),
-                                                    navigation.navigate('Oder', { id: billId })
-                                            }
+            
 
-                                            //saveBillTable(item.id,item.data.name),
-                                            //navigation.navigate('Oder',{id: billId}) 
-                                        }}
-                                    >
-
-                                        <Text style={{ fontSize: 18, fontWeight: '700' }}>Add </Text>
-                                        <Image source={require('../image/cart-plus-solid.png')} style={{ width: 20, height: 20 }}></Image>
-                                    </TouchableOpacity>
-
-                                </View>
-                            </View>
-                        )
-                    }}
+            <View style={{width: '90%' , height : 50 , alignItem:'center' , justifyContent : 'center' ,backgroundColor:'#3399FF' ,marginLeft : 20,marginTop:10}}>
+                <TouchableOpacity
+                style={{alignItems:'center' }}
+                onPress={() =>{navigation.navigate('Home')}}
                 >
-                </FlatList>
-            </SafeAreaView>
+                    <Text style={{alignItems:'center'}}>Xong</Text>
+                </TouchableOpacity>
+            </View>
         </View>
+        
 
     )
+            
 }
 
 export default Items;
@@ -238,11 +200,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+
     },
     box: {
-        width: 150,
-        height: 150,
-        margin: 10,
+        width: 130,
+        height: 110,
+        margin: 20,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',

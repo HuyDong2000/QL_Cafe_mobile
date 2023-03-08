@@ -4,25 +4,25 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet ,Image} from 'react
 import firestore from '@react-native-firebase/firestore';
 
 import {useEffect,useState} from 'react'
+import {useRoute} from '@react-navigation/native'
+import EditType from "./EditType";
+/* man hinh edit Type  */
 
+const EditTypeDetail = ({ navigation }) => {
+    const route = useRoute()
+    const [id, setid] = useState(route.params.data.id);
+    const [name, setname] = useState(route.params.data.name);
 
-
-const AddTable = ({ navigation }) => {
-    //const [id, setid] = useState('');
-    const [name, setname] = useState('');
-    const getData = async () => {
-        const table = await firestore().collection('table').get();
-        console.log(table.docs)
-    }
-    const addIteam = () => {
+    const uploadItem = () => {
         firestore()
-            .collection('table')
-            .add({
-                
+            .collection('type')
+            .doc(route.params.id)
+            .update({
+                id: id,
                 name: name,
             })
             .then(() => {
-                console.log('User added!');
+                console.log('User updated!');
             });
     }
     return (
@@ -38,10 +38,10 @@ const AddTable = ({ navigation }) => {
                 />
             </View>
             <View style={{ width: '90%', height: 150, flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
-                <Text style={{ alignItems: 'center', fontSize: 20 }}>Them Ban </Text>
+                <Text style={{ alignItems: 'center', fontSize: 20 }}>Add Type </Text>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-           
+            
                 <TextInput
                     style={{ width: '80%', height: 60, backgroundColor: '#CCCCCC', fontSize: 15, borderRadius: 10,marginTop:10 ,paddingLeft:20}}
                     placeholder="Ten Ban "
@@ -51,18 +51,17 @@ const AddTable = ({ navigation }) => {
                 />
                 <TouchableOpacity style={{ width: '80%', height: 60, backgroundColor: '#0099FF', borderRadius: 10, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}
                 onPress={()=>{
-                    if( name !== ''){
-                        addIteam()
-                    }else{
-                        alert("Please Enter Data")
-                    }
+                   uploadItem();
+                   navigation.navigate('ListEditTable');
                     
                 }}>
-                    <Text>Add</Text>
+                    <Text style={{ alignItems: 'center', justifyContent: 'center' }}>UpDate</Text>
                 </TouchableOpacity>
+
+
             </View>
         </View>
 
     )
 }
-export default AddTable;
+export default EditTypeDetail;

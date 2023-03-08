@@ -7,7 +7,7 @@ import {useEffect,useState} from 'react'
 
 
 
-const AddTable = ({ navigation }) => {
+const AddType = ({ navigation }) => {
     //const [id, setid] = useState('');
     const [name, setname] = useState('');
     const getData = async () => {
@@ -16,7 +16,7 @@ const AddTable = ({ navigation }) => {
     }
     const addIteam = () => {
         firestore()
-            .collection('table')
+            .collection('type')
             .add({
                 
                 name: name,
@@ -38,7 +38,7 @@ const AddTable = ({ navigation }) => {
                 />
             </View>
             <View style={{ width: '90%', height: 150, flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
-                <Text style={{ alignItems: 'center', fontSize: 20 }}>Them Ban </Text>
+                <Text style={{ alignItems: 'center', fontSize: 20 }}>Add Type </Text>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center', }}>
            
@@ -65,4 +65,4 @@ const AddTable = ({ navigation }) => {
 
     )
 }
-export default AddTable;
+export default AddType;
