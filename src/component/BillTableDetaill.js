@@ -31,7 +31,7 @@ const BillTableDetail = ({navigation}) => {
             cart: tempData
         })
         setCount(count + 1)
-        getCartItem()
+       
     }
     const removeItem = async (item) => {
         
@@ -47,10 +47,17 @@ const BillTableDetail = ({navigation}) => {
             cart: tempData
         })
         setCount(count + 1)
-        getCartItem()
+       
     }
-    const deleteItem = (item) => {
-
+    const deleteItem = async (item) => {
+        const bill = await firestore().collection('billtable').doc(route.params.id).get()
+        let tempData = []
+        tempData = bill._data.cart
+        tempData.splice(index, 1)
+        firestore().collection('billtable').doc(route.params.id).update({
+            cart: tempData
+        })
+        setCount(count + 1)
     }
     const getCartItem = async () => {
         const bill = await firestore().collection('billtable').doc(route.params.id).get()
@@ -87,14 +94,14 @@ const BillTableDetail = ({navigation}) => {
 
                 <Text style={{ fontSize: 20, fontWeight: '700', marginLeft: 40 }}>BillTableDetail</Text>
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={() => { setClicked(true) }}
                 >
                     <Image source={require('../image/dots.png')} style={{ width: 25, height: 25, marginLeft: 130 }}>
                     </Image>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View >
-                <Modal isVisible ={clicked}
+                {/* <Modal isVisible ={clicked}
                 style={{marginBottom : '120%',marginLeft : '60%' , width : 350 , height : 250}}
                 >
                   <View style={styles.dropdownArea}>
@@ -132,7 +139,7 @@ const BillTableDetail = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                
-                </Modal>
+                </Modal> */}
                 </View>
             </View>
            
@@ -199,7 +206,6 @@ export default BillTableDetail;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
     },
     btnTab: {
         width: 100,
@@ -209,7 +215,6 @@ const styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center',
         justifyContent: 'center'
-
     },
     btnText: {
         fontSize: 16,
@@ -222,10 +227,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         elevation: 4,
         backgroundColor: '#fff',
-        marginTop: 10,
+        marginTop: 5,
         borderRadius: 10,
         marginBottom: 10,
-
     },
     itemImage: {
         width: 90,
@@ -243,7 +247,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 30
-
     },
     addToCartBtn: {
         backgroundColor: 'green',
@@ -258,9 +261,7 @@ const styles = StyleSheet.create({
         width: '40%',
         backgroundColor: '#fff',
         borderRadius: 10,
-        marginRight: 30,
-        
-        
+        marginRight: 30,    
     },
     typeItem: {
         width: '85%',

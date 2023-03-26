@@ -5,13 +5,14 @@ import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import { useRoute } from '@react-navigation/native'
 
 const Revennue = () => {
+    const route = useRoute()
     const [items, setItems] = useState([])
     const [data, setData] = useState([])
-    const [data1, setData1] = useState([])
-    const [olditems, setOldItems] = useState([])
+    const [data1, setData1] = useState(route.params.data)
+    const [olditems, setOldItems] = useState(route.params.datarevenue)
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isDatePickerVisible1, setDatePickerVisibility1] = useState(false);
     const [selectDate, setSelectData] = useState('Select date')
@@ -26,55 +27,9 @@ const Revennue = () => {
     const [count, setCount] = useState(0)
     const [total, setTotal] = useState('')
     useEffect(() => {
-        getData()
-        getDataBill()
-        CheckBill()
+       
+        getTotal1()
     }, [count])
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-    const showDatePickerEnd = () => {
-        setDatePickerVisibility1(true);
-    };
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-        setCount(count + 1)
-    };
-    const hideDatePickerEnd = () => {
-        setDatePickerVisibility1(false)
-        setCount(count + 1)
-    };
-    const handleConfirm = (date) => {
-        //console.warn("A date has been picked: ", date);
-
-        const dt = new Date(date)
-        const x = dt.toISOString().split('T')
-        const x1 = x[0].split('-')
-        let date01 = parseInt(x1[2]) + 1
-        console.log(x1[2] + '/' + x1[1] + '/' + x1[0])
-        setSelectData(x1[2] + '/' + x1[1] + '/' + x1[0])
-        setDataDate(x1[2])
-        setDataModth(x1[1])
-        setDataYear(x1[0])
-        hideDatePicker();
-
-        // console.warn("A date has been picked: ", date01);
-    };
-    const handleConfirmEnd = (date) => {
-        //console.warn("A date has been picked: ", date);
-        const dt = new Date(date)
-        const x = dt.toISOString().split('T')
-        const x1 = x[0].split('-')
-        let date01 = parseInt(x1[2]) + 1
-        console.log(x1[2] + '/' + x1[1] + '/' + x1[0])
-        setSelectData1(x1[2] + '/' + x1[1] + '/' + x1[0])
-        setDataDateEnd(x1[2])
-        setDataModthEnd(x1[1])
-        setDataYearEnd(x1[0])
-        hideDatePickerEnd();
-    };
-
     const getData = () => {
         firestore()
             .collection('DoanhThu')
@@ -166,7 +121,7 @@ const Revennue = () => {
         setData1(tempData)
     }
     const getTotal = (datat) => {
-        console.log('cart')
+       
         let total = 0
         datat.map(itm => {
             total = total + itm.data.qty * itm.data.price
@@ -175,12 +130,13 @@ const Revennue = () => {
     }
     const getTotal1 = () => {
         let dt = 0
-        if (olditems.length > 0) {
-            olditems.map(itm => {
-                dt = dt + parseInt(itm.total)
+        let tempData = []
+        tempData = route.params.datarevenue
+        if (tempData.length > 0) {
+            tempData.map(itm => {
+                dt = dt + parseInt(itm.data.total)
             })
-            console.log('daonh thu tong ')
-            console.log(dt)
+            
             setTotal(dt)
         }
         // console.log('tong doanh thu')
@@ -193,56 +149,11 @@ const Revennue = () => {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', margin: 10 }}>
-            <View style={{ alignItems: 'center' }}>
+        <View style={{ flex: 1, alignItems: 'center', margin: 5 ,backgroundColor:'#fff'}}>
+            <View style={{ alignItems: 'center',marginTop:30,marginBottom:30 }}>
                 <Text style={{ fontSize: 30, fontWeight: '700' }}>Doanh Thu</Text>
             </View>
-            <View style={{
-                width: '60%', height: 50, backgroundColor: '#fff', borderRadius: 10, flexDirection: 'row'
-                , marginTop: 20, alignItems: 'center'
-            }}>
-                <Text style={{ fontSize: 18, fontWeight: '700', marginRight: 20, marginLeft: 20 }}>{selectDate}</Text>
-                <TouchableOpacity onPress={showDatePicker}>
-                    <Image source={require('../image/date.jpg')} style={{ width: 30, height: 30, marginLeft: 30 }}></Image>
-                </TouchableOpacity>
-
-
-            </View>
-            <View style={{
-                width: '60%', height: 50, backgroundColor: '#fff', borderRadius: 10, flexDirection: 'row'
-                , marginTop: 20, alignItems: 'center'
-            }}>
-                <Text style={{ fontSize: 18, fontWeight: '700', marginRight: 20, marginLeft: 20 }}>{selectDate1}</Text>
-                <TouchableOpacity onPress={showDatePickerEnd}>
-                    <Image source={require('../image/date.jpg')} style={{ width: 30, height: 30, marginLeft: 30 }}></Image>
-                </TouchableOpacity>
-
-
-            </View>
-
-            <View>
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                />
-
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible1}
-                    mode="date"
-                    onConfirm={handleConfirmEnd}
-                    onCancel={hideDatePickerEnd}
-                />
-                <TouchableOpacity style={{
-                    backgroundColor: '#3399CC', width: 320, height: 50, marginTop: 10, alignItems: 'center', justifyContent: 'center',
-                    borderRadius: 10
-                }}
-                    onPress={() => { getdata1(), getTotal1(), setCount(count + 1) }}>
-                    <Text style={{ fontSize: 18, fontWeight: '700' }}>Kiem Tra</Text>
-                </TouchableOpacity>
-            </View>
-            <SafeAreaView style={{ width: '100%', marginTop: 10, height: 330 }}>
+            <SafeAreaView style={{ width: '100%', marginTop: 10, height: '75%' }}>
                 <FlatList
                     data={data1}
                     renderItem={({ item, index }) => {
@@ -262,8 +173,6 @@ const Revennue = () => {
                                         </TouchableOpacity>
                                         <Text style={{ fontSize: 20, fontWeight: '700', color: '#009966', marginRight: 10 }}>{'$ ' + Format(getTotal(item.data.cart))}</Text>
 
-
-
                                     </View>
                                 </View>
                             </View>
@@ -276,7 +185,7 @@ const Revennue = () => {
                 flexDirection: 'row', width: '90%', height: 50, alignItems: 'center',
                 marginBottom: 20, marginLeft: 10
             }}>
-                <Text style={{ fontSize: 20, fontWeight: '700' }}>Total :</Text>
+                <Text style={{ fontSize: 20, fontWeight: '700' ,marginLeft:10}}>Total :</Text>
                 <Text style={{ marginLeft: 180, fontSize: 20, fontWeight: '700', color: '#33CC66' }}>{Format(total)}</Text>
             </View>
         </View>

@@ -60,7 +60,7 @@ const EditProduct = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={{color: '#1C1C1C',fontSize: 30}}>Manage Product</Text>
+                <Text style={{color: '#1C1C1C',fontSize: 30}}>QUẢN LÝ MÓN </Text>
             </View>
             <View style={{ alignItems: 'center' }}>
                 <Image
@@ -137,17 +137,14 @@ const EditProduct = ({ navigation }) => {
                 >
                 </FlatList>
             </SafeAreaView>
-            <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
+            <View style={{ alignItems: 'center', }}>
                 <TouchableOpacity style={{
-                    width: '90%', height: 40, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
-                    , alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 10,
-                    borderTopRightRadius: 10,
-                    borderBottomLeftRadius: 10,
-                    borderBottomRightRadius: 10,
+                    width: '90%', height: 50, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
+                    , alignItems: 'center', justifyContent: 'center', borderRadius:10
                 }}
                     onPress={() => getItems()}
                 >
-                    <Text>Reset</Text>
+                    <Text style={{fontSize:20,fontWeight:'700'}}>Reset</Text>
                 </TouchableOpacity>
             </View>
 
@@ -168,6 +165,7 @@ const styles = StyleSheet.create({
         paddingTop : 50,
         paddingHorizontal: 20,
         paddingBottom : 20,
+        backgroundColor:'#fff'
     },
     box: {
         width: '90%',

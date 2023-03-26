@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
 import {
     Text, View, Image, TouchableOpacity , StyleSheet} from 'react-native';
-
-const HomeAdmin = ({navigation})=>{
-    return (            
-        <View style={{flex:1, backgroundColor:'#fff'}}>
+    import {useEffect,useState} from 'react'
+    import {useRoute} from '@react-navigation/native'
+const Home = ({navigation})=>{
+    const route = useRoute()
+    useEffect(() => {
+        console.log(route.params.id)
+    }, [])
+    return (
+        <View style={{
+            flex: 1, backgroundColor: '#fff', paddingTop: 20,
+            paddingHorizontal: 20,
+            paddingBottom: 20,
+        }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+                <Image source={require('../image/home.png')} style={{ width: 30, height: 30, marginLeft: 5 }}></Image>
+                <Text style={{ fontSize: 22, fontWeight: '700', marginLeft: 30 }}>Home</Text>
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate('Login') }}
+                >
+                    <Image source={require('../image/logout.jpg')} style={{ width: 30, height: 30, marginLeft: 160 }}></Image>
+                </TouchableOpacity>
+               
+            </View>
             <View style={{ alignItems: 'center' , marginTop : 60}}>
                 <Text style={{color: '#009966',fontSize: 30 , fontWeight:'800'}}>Cafe Lá Xanh </Text>
                 <Image source={require('../image/logo.jpg')} style={{width:'50%',height:250}}></Image>
@@ -29,7 +48,9 @@ const HomeAdmin = ({navigation})=>{
                     <Text style={styles.titleText}> Thanh Toán </Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.box}>
+                <TouchableOpacity style={styles.box}
+                onPress={() => { navigation.navigate('StaffInfor' , {id : route.params.id})}}
+                >
                     <Text style={styles.titleText}>Staff Manager</Text>
                 </TouchableOpacity>
                 </View>
@@ -39,6 +60,7 @@ const HomeAdmin = ({navigation})=>{
         </View>
     )
 }
+export default Home;
 const styles = StyleSheet.create({
     container: {    
         margin:5,
@@ -69,4 +91,3 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     }
 })
-export default HomeAdmin;

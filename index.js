@@ -26,4 +26,14 @@ import Home from './src/component/HomeScreen.js'
 import Revennue from './src/component/Revennue.js'
 import AddStaff from './src/component/AddStaff.js'
 import ScreenSatff from './src/component/screenStaff.js'
-AppRegistry.registerComponent(appName, () => ScreenQl);
+import Login from './src/component/Login';
+
+
+import EmployeeSalary from './src/component/EmployeeSalary.js'
+import SalaryManagement from './src/component/SalaryManagement.js'
+import AreaScreen from './src/component/areaScreen.js'
+import RevennueToDay from './src/component/RevenueToDay.js'
+import Print from './src/component/PrintBill.js'
+
+import StaffData from './src/component/StaffInfor.js'
+AppRegistry.registerComponent(appName, () => Screen);

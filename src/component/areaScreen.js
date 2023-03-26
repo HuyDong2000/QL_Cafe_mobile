@@ -9,7 +9,7 @@ import { create } from 'react-test-renderer';
 import { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 
-const ScreenSatff = ({ navigation }) => {
+const AreaScreen = ({ navigation }) => {
     const [items, setItems] = useState([]);
     const [oldData, setoldData] = useState([]);
     useEffect(() => {
@@ -17,7 +17,7 @@ const ScreenSatff = ({ navigation }) => {
     }, [])
     const getItems = () => {
         firestore()
-            .collection('Satff')
+            .collection('area')
             .get()
             .then(querySnapshot => {
                 console.log('Total Satff: ', querySnapshot.size);
@@ -35,7 +35,7 @@ const ScreenSatff = ({ navigation }) => {
     }
     const Removingdata = (docId) => {
         firestore()
-            .collection('Satff')
+            .collection('area')
             .doc(docId)
             .delete()
             .then(() => {
@@ -60,7 +60,7 @@ const ScreenSatff = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={{color: '#1C1C1C',fontSize: 30}}>QUẢN LÝ NHÂN VIÊN</Text>
+                <Text style={{color: '#1C1C1C',fontSize: 30}}>QUẢN LÝ KHU VỰC </Text>
             </View>
             <View style={{ alignItems: 'center' }}>
                 <Image
@@ -75,7 +75,7 @@ const ScreenSatff = ({ navigation }) => {
             </View>
             <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
                 <TouchableOpacity style={{ width: 60, height: 60, borderRadius: 50, elevation: 0.2 , backgroundColor:'#fff', alignItems: 'center', justifyContent:'center'}}
-                   onPress={() => { navigation.navigate('AddStaff') }}
+                   onPress={() => { navigation.navigate('AddArea') }}
                 >
                     <Image source={require('../image/add-outline.png')} style={{ width: 50, height: 50}}>
                     </Image>
@@ -98,9 +98,9 @@ const ScreenSatff = ({ navigation }) => {
                     renderItem={({ item, index }) => {
                         return (
                             <View style={styles.box}>
-                                <View style={{ width: 200, alignSelf: 'center',flexDirection:'row' }}>
-                                    <View style={{width: '60%', margin:10}}>
-                                        <Text style={{fontSize: 18,fontWeight : '700'}}>{item.data.name}</Text>
+                                <View style={{ width: 200, alignSelf: 'center',flexDirection:'row' ,alignItems:'center'}}>
+                                    <View style={{width: '60%', margin:10 }}>
+                                        <Text style={{fontSize: 18,fontWeight : '700',marginLeft:20,marginTop:20}}>{item.data.name}</Text>
                                         <View style={{flexDirection: 'row'}}>
                                             <Text style={{fontSize: 18,color:'green',fontWeight:'700'}}>
                                                 {item.data.Date}
@@ -111,7 +111,7 @@ const ScreenSatff = ({ navigation }) => {
                                 <View style={{ flexDirection: 'row-reverse', flex: 1, alignSelf: 'center', marginLeft: 10 }}>
                                     <TouchableOpacity style={{ padding: 5 }}
                                         onPress={() => {
-                                            navigation.navigate('EditSatff', {
+                                            navigation.navigate('EditArea', {
                                                 data: item.data,
                                                 id: item.id,
                                             })
@@ -134,10 +134,10 @@ const ScreenSatff = ({ navigation }) => {
                 >
                 </FlatList>
             </SafeAreaView>
-            <View style={{ alignItems: 'center',  }}>
+            <View style={{ alignItems: 'center'}}>
                 <TouchableOpacity style={{
-                    width: '90%', height: 50, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
-                    , alignItems: 'center', justifyContent: 'center', borderRadius:10
+                    width: '90%', height: 50, elevation: 2, backgroundColor: '#99CCFF', borderRadius:10,alignItems:'center'
+                    ,justifyContent:'center'
                     
                 }}
                     onPress={() => getItems()}
@@ -150,7 +150,7 @@ const ScreenSatff = ({ navigation }) => {
     )
 }
 
-export default ScreenSatff;
+export default AreaScreen;
 const styles = StyleSheet.create({
     titleSafeAreaView: {
         flex: 1,
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff'
     },
     box: {
-        width: '90%',
+        width: '85%',
         height: 100,
         alignSelf: 'center',
         flexDirection: 'row',

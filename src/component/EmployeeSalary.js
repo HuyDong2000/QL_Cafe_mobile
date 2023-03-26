@@ -9,7 +9,7 @@ import { create } from 'react-test-renderer';
 import { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 
-const ScreenSatff = ({ navigation }) => {
+const EmployeeSalary = ({ navigation }) => {
     const [items, setItems] = useState([]);
     const [oldData, setoldData] = useState([]);
     useEffect(() => {
@@ -35,7 +35,7 @@ const ScreenSatff = ({ navigation }) => {
     }
     const Removingdata = (docId) => {
         firestore()
-            .collection('Satff')
+            .collection('product')
             .doc(docId)
             .delete()
             .then(() => {
@@ -60,26 +60,7 @@ const ScreenSatff = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={{color: '#1C1C1C',fontSize: 30}}>QUẢN LÝ NHÂN VIÊN</Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
-                <Image
-                    source={{ uri: 'https://media.istockphoto.com/id/120231825/vi/vec-to/v%E1%BA%BD-m%E1%BB%99t-chi%E1%BA%BFc-l%C3%A1-m%C3%A0u-xanh-l%C3%A1-c%C3%A2y-tr%C3%AAn-n%E1%BB%81n-tr%E1%BA%AFng.jpg?s=1024x1024&w=is&k=20&c=eeMzAtsJn6dylfQe9hiRFRQvJQkm0Lsn9InadKPmFYw=' }}
-                    style={{
-                        width: '50%',
-                        height: 100,
-                        resizeMode: 'contain',
-                        margin: 10,
-                    }}
-                />
-            </View>
-            <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
-                <TouchableOpacity style={{ width: 60, height: 60, borderRadius: 50, elevation: 0.2 , backgroundColor:'#fff', alignItems: 'center', justifyContent:'center'}}
-                   onPress={() => { navigation.navigate('AddStaff') }}
-                >
-                    <Image source={require('../image/add-outline.png')} style={{ width: 50, height: 50}}>
-                    </Image>
-                </TouchableOpacity>
+                <Text style={{color: '#1C1C1C',fontSize: 30}}>CHẤM CÔNG  </Text>
             </View>
             <SafeAreaView style={styles.titleSafeAreaView}>
                 <View style={{
@@ -98,8 +79,8 @@ const ScreenSatff = ({ navigation }) => {
                     renderItem={({ item, index }) => {
                         return (
                             <View style={styles.box}>
-                                <View style={{ width: 200, alignSelf: 'center',flexDirection:'row' }}>
-                                    <View style={{width: '60%', margin:10}}>
+                                <View style={{ width: 300, alignSelf: 'center',flexDirection:'row' }}>
+                                    <View style={{width: '60%', margin:10,marginLeft:10}}>
                                         <Text style={{fontSize: 18,fontWeight : '700'}}>{item.data.name}</Text>
                                         <View style={{flexDirection: 'row'}}>
                                             <Text style={{fontSize: 18,color:'green',fontWeight:'700'}}>
@@ -111,22 +92,17 @@ const ScreenSatff = ({ navigation }) => {
                                 <View style={{ flexDirection: 'row-reverse', flex: 1, alignSelf: 'center', marginLeft: 10 }}>
                                     <TouchableOpacity style={{ padding: 5 }}
                                         onPress={() => {
-                                            navigation.navigate('EditSatff', {
+                                            navigation.navigate('EmployeeSalaryDetail', {
                                                 data: item.data,
                                                 id: item.id,
                                             })
                                         }}
                                     >
-                                        <Image source={require('../image/brush-outline.png')}
-                                            style={{ width: 30, height: 30 }}></Image>
+                                        <Image source={require('../image/angle-right-solid.png')}
+                                            style={{ width: 20, height: 20 }}></Image>
                                     </TouchableOpacity>
 
-                                    <TouchableOpacity style={{ padding: 5 }}
-                                        onPress={() => { Confirm(item.id) }}
-                                    >
-                                        <Image source={require('../image/close-circle-outline.png')}
-                                            style={{ width: 30, height: 30 }}></Image>
-                                    </TouchableOpacity>
+                                    
                                 </View>
                             </View>
                         )
@@ -134,15 +110,17 @@ const ScreenSatff = ({ navigation }) => {
                 >
                 </FlatList>
             </SafeAreaView>
-            <View style={{ alignItems: 'center',  }}>
+            <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
                 <TouchableOpacity style={{
-                    width: '90%', height: 50, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
-                    , alignItems: 'center', justifyContent: 'center', borderRadius:10
-                    
+                    width: '90%', height: 40, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
+                    , alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
                 }}
                     onPress={() => getItems()}
                 >
-                    <Text style={{fontSize:20 , fontWeight:'700'}}>Reset</Text>
+                    <Text>Reset</Text>
                 </TouchableOpacity>
             </View>
 
@@ -150,7 +128,7 @@ const ScreenSatff = ({ navigation }) => {
     )
 }
 
-export default ScreenSatff;
+export default EmployeeSalary;
 const styles = StyleSheet.create({
     titleSafeAreaView: {
         flex: 1,
@@ -163,7 +141,6 @@ const styles = StyleSheet.create({
         paddingTop : 50,
         paddingHorizontal: 20,
         paddingBottom : 20,
-        backgroundColor:'#fff'
     },
     box: {
         width: '90%',

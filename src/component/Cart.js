@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import { useRoute } from '@react-navigation/native'
 import { useIsFocused } from '@react-navigation/native'
+import Modal from 'react-native-modal'
 const Cart = ({ navigation }) => {
     const [count,setCount] = useState(0)
     useEffect(() => {
@@ -13,6 +14,8 @@ const Cart = ({ navigation }) => {
     const [cartList, setCartList] = useState([])
     const route = useRoute()
     const idBill = route.params.id
+    const [nameTable,setNameTable] = useState('')
+    const [clicked, setClicked] = useState(false);
     const addItem = async (item) => {
 
         const bill = await firestore().collection('billtable').doc(route.params.id).get()
@@ -27,10 +30,9 @@ const Cart = ({ navigation }) => {
             cart: tempData
         })
         setCount(count + 1)
-        getCartItem()
+       
     }
     const removeItem = async (item) => {
-
         const bill = await firestore().collection('billtable').doc(route.params.id).get()
         let tempData = []
         tempData = bill._data.cart
@@ -43,19 +45,90 @@ const Cart = ({ navigation }) => {
             cart: tempData
         })
         setCount(count + 1)
-        getCartItem()
-        
+       
     }
-    const deleteItem = (item) => {
-
+    const deleteItem = async (index) => {
+        const bill = await firestore().collection('billtable').doc(route.params.id).get()
+        let tempData = []
+        tempData = bill._data.cart
+        tempData.splice(index, 1)
+        firestore().collection('billtable').doc(route.params.id).update({
+            cart: tempData
+        })
+        setCount(count + 1)
     }
     const getCartItem = async () => {
         const bill = await firestore().collection('billtable').doc(idBill).get()
         setCartList(bill._data.cart)
-        console.log('loadding .... ')
+        setNameTable(bill._data.idTable)
+        console.log('Cart ')
+        console.log(bill._data.cart)
     }
     return (
         <View style={styles.container}>
+
+            <View style={{
+                width: '90%', height: 50, flexDirection: 'row', alignItems: 'center'
+                , marginLeft: 20, marginTop: 5
+            }}>
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate('Table') }}
+                >
+                    <Image source={require('../image/back.png')} style={{ width: 25, height: 25, marginLeft: 5 }}>
+                    </Image>
+                </TouchableOpacity>
+
+                <Text style={{ fontSize: 20, fontWeight: '700', marginLeft: 40 }}>Cart</Text>
+
+                <TouchableOpacity
+                    onPress={() => { setClicked(true) }}
+                >
+                    <Image source={require('../image/dots.png')} style={{ width: 25, height: 25, marginLeft: 200 }}>
+                    </Image>
+                </TouchableOpacity>
+                <View >
+                    <Modal isVisible={clicked}
+                        style={{ marginBottom: '120%', marginLeft: '60%', width: 350, height: 250 }}
+                    >
+                        <View style={styles.dropdownArea}>
+                            <TouchableOpacity style={styles.typeItem}
+                                onPress={() => {
+
+                                    setClicked(false)
+                                    navigation.navigate('TransforTable', { Cart: cartList, id: nameTable, idBill: route.params.id })
+                                }}
+
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: '500' }}>Chuyển Bàn </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.typeItem}
+                                onPress={() => {
+
+                                    setClicked(false)
+                                    navigation.navigate('TableCombine', { Cart: cartList, id: nameTable, idBill: route.params.id })
+                                }}
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: '500' }}>Gộp Bàn </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.typeItem}
+                                onPress={() => {
+                                    setClicked(false)
+                                    navigation.navigate('CupTable', { Cart: cartList, id: nameTable, idBill: route.params.id })
+                                }}
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: '500' }}>Tách Bàn </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.typeItem}
+                                onPress={() => { setClicked(false) }}
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: '500' }}> Thoát </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </Modal>
+                </View>
+            </View>
+
             <SafeAreaView style={styles.titleSafeAreaView}>
                 <FlatList data={cartList}
                     renderItem={({ item, index }) => {
@@ -80,7 +153,7 @@ const Cart = ({ navigation }) => {
                                             if (item.data.qty > 1) {
                                                 removeItem(item)
                                             } else {
-                                                deleteItem(item)
+                                                deleteItem(index)
                                             }
                                         }}
                                     >
@@ -170,6 +243,23 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         margin: 10,
+    },
+    dropdownArea: {
+        elevation: 5,
+        marginTop: 5,
+        height: 200,
+        width: '40%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        marginRight: 30,    
+    },
+    typeItem: {
+        width: '85%',
+        height: 50,
+        borderBottomWidth: 0.2,
+        borderBottomColor: '#8e8e8e',
+        alignSelf: 'center',
+        justifyContent: 'center',
     }
 
 })

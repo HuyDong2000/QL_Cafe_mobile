@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Text, StyleSheet, View , FlatList,TouchableOpacity,SafeAreaView} from 'react-native'
+    Text, StyleSheet, View , FlatList,TouchableOpacity,SafeAreaView,TextInput,Image} from 'react-native'
 import { useRoute } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
@@ -9,6 +9,10 @@ const PrintBill = ({navigation}) =>{
     const [items,setItems] = useState([])
     const [total,setTotal] = useState(0)
     const [qtytotal,setQtyTotal] = useState('12')
+    const [name,setName] = useState('Cofe Lá Xanh')
+    const [address,setAddress] = useState('KCN BẮC ĐÔNG PHÚ , TT Tân Phú')
+    const [number,setNumber] = useState('0395671248')
+    const [check,setcheck] = useState(true)
     useEffect(() => {
         setItems(route.params.Cart)
        getTotal()
@@ -93,29 +97,53 @@ const PrintBill = ({navigation}) =>{
     } 
     return(
         <View style={styles.container}>
-           <Text style={{fontSize:30 ,fontWeight:'700'}}>Cofe Lá Xanh</Text>
-           <Text style={{fontSize:16 , fontWeight:'500',marginTop:20}}>KCN BẮC ĐÔNG PHÚ , TT Tân Phú</Text>
-           <Text style={{fontSize:16 , fontWeight:'500',marginTop:20}}>0395671248</Text>
-           <Text style={{fontSize:30 , fontWeight:'500',marginTop:20}}>HÓA ĐƠN BÀN</Text>
-           
-           <View style={styles.box}>
-               <View style={{width :'40%' ,alignItems:'center'}}><Text style={styles.titletext}>Tên</Text></View>
-               <View style={{width :'10%',alignItems:'center'}}><Text style={styles.titletext}>SL</Text></View>
-               <View style={{width :'25%',alignItems:'center'}}><Text style={styles.titletext}>Giá</Text></View>
-               <View style={{width :'25%',alignItems:'center'}}><Text style={styles.titletext}>Tổng</Text></View>
-           </View>
-           <SafeAreaView style={{height:220}}>
-           <FlatList
-           style={{width:'90%'}}
-            data={items}
+            <View style={{height:50 , flexDirection:'row-reverse',width:'90%'}}>
+                <TouchableOpacity onPress={() => { setcheck(!check) }} style={{flexDirection:'row-reverse',alignItems:'center'}}>
+                    <Image source={require('../image/edit.png')} style={{ width: 20, height: 20,marginLeft:5 }}></Image>
+                    <Text style={{ fontSize: 16, fontWeight: '500' ,marginLeft : 5}}>Sửa</Text>
+                </TouchableOpacity>
+
+            </View>
+            {check ? (<View style={{ alignItems: 'center' }}><Text style={{ fontSize: 30, fontWeight: '700' }}>{name}</Text>
+                <Text style={{ fontSize: 16, fontWeight: '500', marginTop: 15 }}>{address}</Text>
+                <Text style={{ fontSize: 16, fontWeight: '500', marginTop: 15 }}>{number}</Text>
+                <Text style={{ fontSize: 30, fontWeight: '500', marginTop: 15 }}>HÓA ĐƠN BÀN</Text></View>) : (<View>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setName}
+                        value={name}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setAddress}
+                        value={address}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setNumber}
+                        value={number}
+                    />
+                </View>)}
+
+
+            <View style={styles.box}>
+                <View style={{ width: '40%', alignItems: 'center' }}><Text style={styles.titletext}>Tên</Text></View>
+                <View style={{ width: '10%', alignItems: 'center' }}><Text style={styles.titletext}>SL</Text></View>
+                <View style={{ width: '25%', alignItems: 'center' }}><Text style={styles.titletext}>Giá</Text></View>
+                <View style={{ width: '25%', alignItems: 'center' }}><Text style={styles.titletext}>Tổng</Text></View>
+            </View>
+            <SafeAreaView style={{ height: 200 }}>
+                <FlatList
+                    style={{ width: '90%' }}
+                    data={items}
                     renderItem={({ item, index }) => {
                         return (
                             <View style={styles.box1}>
-                            <View style={{width :'40%' ,alignItems:'center'}}><Text style={styles.titletext}>{item.data.name}</Text></View>
-                            <View style={{width :'10%',alignItems:'center'}}><Text style={styles.titletext}>{item.data.qty}</Text></View>
-                            <View style={{width :'25%',alignItems:'center'}}><Text style={styles.titletext}>{FormatNumber1(item.data.price)}</Text></View>
-                            <View style={{width :'25%',alignItems:'center'}}><Text style={styles.titletext}>{FormatNumber(item.data.qty * item.data.price)}</Text></View>
-                        </View>
+                                <View style={{ width: '40%', alignItems: 'center' }}><Text style={styles.titletext}>{item.data.name}</Text></View>
+                                <View style={{ width: '10%', alignItems: 'center' }}><Text style={styles.titletext}>{item.data.qty}</Text></View>
+                                <View style={{ width: '25%', alignItems: 'center' }}><Text style={styles.titletext}>{FormatNumber1(item.data.price)}</Text></View>
+                                <View style={{ width: '25%', alignItems: 'center' }}><Text style={styles.titletext}>{FormatNumber(item.data.qty * item.data.price)}</Text></View>
+                            </View>
                         )
                     }}
                 >
@@ -130,11 +158,11 @@ const PrintBill = ({navigation}) =>{
                     <Text style={{ fontSize: 18 }}>Qúy khách vui lòng khiểm tra lại hóa đơn trước khi thanh toán.</Text>
                     <Text style={{ fontSize: 18 }}>Hẹn gặp lại quý khách lần sau </Text>
                 </View>
-                <TouchableOpacity style={{width:350,height:50 ,alignItems:'center',backgroundColor:'#33CC66',justifyContent:'center',borderRadius:10}}
-                onPress ={() =>{
-                    addItems()
-                    navigation.navigate('Home')
-                }}
+                <TouchableOpacity style={{ width: 350, height: 50, alignItems: 'center', backgroundColor: '#33CC66', justifyContent: 'center', borderRadius: 10 }}
+                    onPress={() => {
+                        addItems()
+                        navigation.navigate('Home')
+                    }}
                 >
                     <Text>Xong</Text>
                 </TouchableOpacity>
@@ -171,5 +199,11 @@ const styles = StyleSheet.create({
     titletext:{
         fontSize:18,
         fontWeight:'600'
-    }
+    },
+    input: {
+        height: 50,
+        margin: 5,
+        padding: 10,
+        borderBottomWidth : 1
+      },
 })

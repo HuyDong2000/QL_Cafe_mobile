@@ -60,10 +60,10 @@ const EditTable = ({ navigation }) => {
                 />
             </View>
             <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
-                <TouchableOpacity style={{ width: 60, height: 60, borderRadius: 50, elevation: 2 }}
+                <TouchableOpacity style={{ width: 60, height: 60, borderRadius: 50, borderWidth:2 ,alignItems:'center',justifyContent:'center'}}
                     onPress={() => { navigation.navigate('AddTable') }}
                 >
-                    <Image source={require('../image/add-outline.png')} style={{ width: 50, height: 50, alignSelf: 'center', marginTop: 5, marginLeft: 2 }}>
+                    <Image source={require('../image/add-outline.png')} style={{ width: 50, height: 50 }}>
                     </Image>
                 </TouchableOpacity>
             </View>
@@ -104,11 +104,9 @@ const EditTable = ({ navigation }) => {
             </SafeAreaView>
             <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
                 <TouchableOpacity style={{
-                    width: '90%', height: 40, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
-                    , alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 10,
-                    borderTopRightRadius: 10,
-                    borderBottomLeftRadius: 10,
-                    borderBottomRightRadius: 10,
+                    width: '90%', height: 50, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 20
+                    , alignItems: 'center', justifyContent: 'center',borderRadius:10,
+                   
                 }}
                     onPress={() => getItems()}
                 >
@@ -134,11 +132,11 @@ const styles = StyleSheet.create({
     },
     box: {
         width: '80%',
-        height: 50,
+        height: 100,
         alignSelf: 'center',
         flexDirection: 'row',
         margin: 10,
         borderRadius:10,
-        borderWidth:2
+        borderWidth:1
     },
 })

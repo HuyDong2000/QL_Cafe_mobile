@@ -111,7 +111,7 @@ const CupTable = ({ navigation }) => {
                 width: '90%', height: 50, marginTop: 5, borderBottomWidth: 2, marginLeft: 10
                 , justifyContent: 'center'
             }}>
-                <Text style={{ fontSize: 20, fontWeight: '700' }}>Tach sang ban </Text>
+                <Text style={{ fontSize: 20, fontWeight: '700' }}>Tách sang bàn </Text>
             </View>
             <SafeAreaView style={{ height: '80%' }}>
                 <FlatList data={itemsClose}
@@ -138,12 +138,6 @@ const CupTable = ({ navigation }) => {
                                                 <Text style={{ fontSize: 18, fontWeight: '700' }}>Add </Text>
                                                 <Image source={require('../image/cart-plus-solid.png')} style={{ width: 20, height: 20 }}></Image>
                                             </TouchableOpacity>
-                                            <View style={{
-                                                width: '90%', height: 50, marginTop: 5, borderBottomWidth: 2, marginLeft: 10
-                                                , justifyContent: 'center'
-                                            }}>
-
-                                            </View>
 
                                         </View>
                                     </View>
@@ -169,7 +163,7 @@ const styles = StyleSheet.create({
     },
     box: {
         width: 150,
-        height: 250,
+        height: 150,
         margin: 20,
         backgroundColor: '#fff',
         alignItems: 'center',

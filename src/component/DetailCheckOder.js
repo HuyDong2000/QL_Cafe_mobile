@@ -48,7 +48,7 @@ const DetailCheckOder = ({navigation}) => {
     const getCartItem = async () => {
         const bill = await firestore().collection('billtable').doc(route.params.id).get()
         setCartList(bill._data.cart)
-        console.log('loadding .... ')
+        
     }
     const assertOder = () => {
         firestore()
@@ -69,7 +69,7 @@ const DetailCheckOder = ({navigation}) => {
                     renderItem={({ item, index }) => {
                         return (
                             <View style={styles.box}>
-                                <View style={{ width: 200, alignSelf: 'center', flexDirection: 'row' }}>
+                                <View style={{ width: 250, alignSelf: 'center', flexDirection: 'row' ,alignItems:'center'}}>
                                     <Image source={{ uri: item.data.imageUrl }}
                                         style={styles.itemImage}
                                     />
@@ -83,7 +83,7 @@ const DetailCheckOder = ({navigation}) => {
                                     </View>
                                 </View>
                                 <View style={styles.addRemoveViewL}>
-                                    <Text style={{ fontSize: 15, fontWeight: '700' }}>{item.data.qty}</Text>
+                                    <Text style={{ fontSize: 18, fontWeight: '700' }}>{item.data.qty}</Text>
                                 </View>
                             </View>
                         )
