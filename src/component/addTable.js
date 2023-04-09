@@ -55,7 +55,7 @@ const AddTable = ({ navigation }) => {
         <View style={{ flex: 1 ,margin:10}}>
            
             <View style={{ width: '90%', height: 150, flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
-                <Text style={{ alignItems: 'center', fontSize: 20 }}>THÊM BÀN </Text>
+                <Text style={{ alignItems: 'center', fontSize: 40 }}>THÊM BÀN </Text>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center', }}>
            

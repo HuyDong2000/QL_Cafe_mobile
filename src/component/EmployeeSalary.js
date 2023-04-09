@@ -110,17 +110,14 @@ const EmployeeSalary = ({ navigation }) => {
                 >
                 </FlatList>
             </SafeAreaView>
-            <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
+            <View style={{ alignItems: 'center', justifyContent:'center' ,marginBottom:20 ,  }}>
                 <TouchableOpacity style={{
-                    width: '90%', height: 40, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
-                    , alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 10,
-                    borderTopRightRadius: 10,
-                    borderBottomLeftRadius: 10,
-                    borderBottomRightRadius: 10,
+                    width: '90%', height: 50, elevation: 2, backgroundColor: '#33CCFF'
+                    , alignItems: 'center', justifyContent: 'center', borderRadius:10
                 }}
                     onPress={() => getItems()}
                 >
-                    <Text>Reset</Text>
+                    <Text style={{fontSize:20,fontWeight:'700'}}>Refresh</Text>
                 </TouchableOpacity>
             </View>
 

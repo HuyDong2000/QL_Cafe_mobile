@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     Text, StyleSheet, View, SafeAreaView, StatusBar, Image, TextInput, KeyboardAvoidingView, ScrollView
-    , TouchableOpacity, Button, FlatList
+    , TouchableOpacity, Button, FlatList , Alert
 } from 'react-native';
 import { useRoute } from '@react-navigation/native'
 import uuid from 'react-native-uuid'
@@ -230,6 +230,7 @@ const Items = ({ navigation }) => {
 
                                             saveBillTable(item.id, item.data.name)
                                             //navigation.navigate('Oder',{id: billId}) 
+                                            alert('Chuyển bàn thành công !')
                                         }}
                                     >
 

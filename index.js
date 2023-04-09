@@ -36,4 +36,6 @@ import RevennueToDay from './src/component/RevenueToDay.js'
 import Print from './src/component/PrintBill.js'
 
 import StaffData from './src/component/StaffInfor.js'
+import Print11 from './src/component/Print.js'
+
 AppRegistry.registerComponent(appName, () => Screen);

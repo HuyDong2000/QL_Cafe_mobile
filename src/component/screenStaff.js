@@ -59,28 +59,33 @@ const ScreenSatff = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <View style={{ alignItems: 'center' }}>
+             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{
+                    flexDirection: 'row', alignItems: 'center', width: '100%', height: 50, elevation: 1
+                }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('HomeQlScreen')
+                        }}
+                    >
+                        <Image source={require('../image/back.png')} style={{ width: 30, height: 30, marginLeft: 30 }}></Image>
+                    </TouchableOpacity>
+
+                    <Text style={{ fontSize: 20, fontWeight: '700', marginLeft: 30 }}>Edit Satff</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('AddStaff')
+                        }}
+                    >
+                        <Image source={require('../image/add-outline.png')} style={{ width: 40, height: 40, marginLeft: '58%' }}></Image>
+                    </TouchableOpacity>
+
+                </View>
+            </View>
+            <View style={{ alignItems: 'center' , marginTop:30}}>
                 <Text style={{color: '#1C1C1C',fontSize: 30}}>QUẢN LÝ NHÂN VIÊN</Text>
             </View>
-            <View style={{ alignItems: 'center' }}>
-                <Image
-                    source={{ uri: 'https://media.istockphoto.com/id/120231825/vi/vec-to/v%E1%BA%BD-m%E1%BB%99t-chi%E1%BA%BFc-l%C3%A1-m%C3%A0u-xanh-l%C3%A1-c%C3%A2y-tr%C3%AAn-n%E1%BB%81n-tr%E1%BA%AFng.jpg?s=1024x1024&w=is&k=20&c=eeMzAtsJn6dylfQe9hiRFRQvJQkm0Lsn9InadKPmFYw=' }}
-                    style={{
-                        width: '50%',
-                        height: 100,
-                        resizeMode: 'contain',
-                        margin: 10,
-                    }}
-                />
-            </View>
-            <View style={{ alignItems: 'center', width: '90%', flexDirection: 'row-reverse' }}>
-                <TouchableOpacity style={{ width: 60, height: 60, borderRadius: 50, elevation: 0.2 , backgroundColor:'#fff', alignItems: 'center', justifyContent:'center'}}
-                   onPress={() => { navigation.navigate('AddStaff') }}
-                >
-                    <Image source={require('../image/add-outline.png')} style={{ width: 50, height: 50}}>
-                    </Image>
-                </TouchableOpacity>
-            </View>
+            
             <SafeAreaView style={styles.titleSafeAreaView}>
                 <View style={{
                     width: '90%', backgroundColor: '#fff', height: 50, marginTop: 15, marginLeft: 20, borderRadius: 10, alignItems: 'center', flexDirection: 'row'
@@ -136,13 +141,13 @@ const ScreenSatff = ({ navigation }) => {
             </SafeAreaView>
             <View style={{ alignItems: 'center',  }}>
                 <TouchableOpacity style={{
-                    width: '90%', height: 50, elevation: 2, backgroundColor: '#99CCFF', marginBottom: 10
+                    width: '90%', height: 50, elevation: 2, backgroundColor: '#33CCFF', marginBottom: 10
                     , alignItems: 'center', justifyContent: 'center', borderRadius:10
                     
                 }}
                     onPress={() => getItems()}
                 >
-                    <Text style={{fontSize:20 , fontWeight:'700'}}>Reset</Text>
+                    <Text style={{fontSize:20 , fontWeight:'700'}}>Refresh</Text>
                 </TouchableOpacity>
             </View>
 
@@ -160,10 +165,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop : 50,
-        paddingHorizontal: 20,
-        paddingBottom : 20,
-        backgroundColor:'#fff'
+       
     },
     box: {
         width: '90%',

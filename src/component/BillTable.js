@@ -91,11 +91,13 @@ const BillTable = ({navigation}) => {
         TableOpen.map(itm => {
             if(itm.id == id){
                 check = true
+                console.log('ban trong khu ')
+                console.log(itm.data.name)
             }
         })
         return check
     }
-    const CheckIdTable = () =>{
+    const CheckIdTable = (id) =>{
         let tempData = []
         items.map(itm =>{
             if(CheckArea(itm.data.idTable)){
@@ -105,13 +107,17 @@ const BillTable = ({navigation}) => {
         setDataList(tempData)
        
     }
+
+    // load data 
     const dataTable = (id) =>{
         let tempData = []
         TableArea.map(itm => {
           if(itm.data.idArea == id){
             tempData.push(itm)
+            console.log(itm.data.name)
           }
         })
+        
         setTableOpen(tempData)
       }
     return (
@@ -139,7 +145,7 @@ const BillTable = ({navigation}) => {
                                 //setIdArea(item.id)
                                 setClicked(false)
                                 dataTable(item.id)
-                                
+                               
                             }}>
                                 <Text>{item.data.name}</Text>
                             </TouchableOpacity>

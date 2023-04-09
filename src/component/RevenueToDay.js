@@ -121,18 +121,21 @@ const RevennueToDay = ({navigation}) => {
             });
     }
     const checkDate = (item) => {
-        // let date = new Date()
-        // let datenew = date.getDate()
-        // let monthnew = date.getMonth() + 1
         let datedata = new Date(item.seconds * 1000 + item.nanoseconds / 1000000)
         let data1 = datedata.getDate()
         let month = datedata.getMonth() + 1
-        if ((parseInt(data1) >= parseInt(dataDate) && parseInt(dataModth) == parseInt(month))
-            && (parseInt(data1) <= parseInt(dataDateEnd) && parseInt(dataModthEnd) == parseInt(month))) {
-            console.log(new Date(item.seconds * 1000 + item.nanoseconds / 1000000))
+        if(parseInt(month) == parseInt(dataModth) ){//trong thang
+            if(parseInt(data1) >= parseInt(dataDate) && parseInt(data1) <= 31){
+                return true
+            }
+        }
+        if(parseInt(month) > parseInt(dataModth)&&parseInt(month) < parseInt(dataModthEnd)){//thang trong khoang
             return true
-        } else {
-            console.log('null')
+        }
+        if(parseInt(month) == parseInt(dataModthEnd) ){//thang ket thuc
+            if(parseInt(data1) <= parseInt(dataDateEnd)){
+                return true
+            }
         }
     }
     const FormatDate = (item) =>{
@@ -161,24 +164,22 @@ const RevennueToDay = ({navigation}) => {
     const CheckBill = () => {
         let totalrevenueday = 0
         let totalrevenue = 0
-        let tempData = 0 
+        let tempData = 0
         let datadate = new Date()
         let data1 = datadate.getDate()
         let month = datadate.getMonth() + 1
         data.map(itm => {
+            if (parseInt(FormatDate(itm.data.date)) ==parseInt(data1) && parseInt(FormatMonth(itm.data.date)) == parseInt(month)) {
+                totalrevenueday = totalrevenueday + parseInt(itm.data.total)
+            }
+            if (parseInt(FormatMonth(itm.data.date)) == parseInt(month)) {
+                tempData = tempData + parseInt(itm.data.total)
+            }
             if (checkDate(itm.data.date) == true) {
                 //tempData.push(itm)
-                if(FormatDate(itm.data.date) == data1){
-                   
-                    totalrevenueday = totalrevenueday + parseInt(itm.data.total)
-                }
-                if(FormatMonth(itm.data.date) == month){
-                    tempData =  tempData + parseInt(itm.data.total)
-                    
-                }
-                
+                totalrevenue = totalrevenue + parseInt(itm.data.total)
             }
-            totalrevenue = totalrevenue + parseInt(itm.data.total)
+            
         })
         setMonth(tempData)
         setTotalRevenue(totalrevenue)

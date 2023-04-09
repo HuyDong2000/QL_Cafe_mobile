@@ -6,7 +6,7 @@ import {
 const Home = ({navigation})=>{
     const route = useRoute()
     useEffect(() => {
-        console.log(route.params.id)
+        //console.log(route.params.id)
     }, [])
     return (
         <View style={{
@@ -49,7 +49,8 @@ const Home = ({navigation})=>{
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.box}
-                onPress={() => { navigation.navigate('StaffInfor' , {id : route.params.id})}}
+                onPress={() => { navigation.navigate('StaffInfor' , )}}
+                //{id : route.params.id}
                 >
                     <Text style={styles.titleText}>Staff Manager</Text>
                 </TouchableOpacity>

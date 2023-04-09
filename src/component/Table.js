@@ -57,7 +57,7 @@ const Items = ({ navigation }) => {
         firestore()
         .collection('table')
         // Filter results
-        .where('status', '==', false)
+        //.where('status', '==', false)
         // Limit results
         .get()
         .then(querySnapshot => {
@@ -177,7 +177,7 @@ const Items = ({ navigation }) => {
             
              <View style={{width:'90%' , height : 50 ,marginTop:5,  borderBottomWidth: 1 ,marginLeft : 20
             ,justifyContent : 'center'}}>
-                <Text style={{fontSize : 20 , fontWeight :'700' }}>Bàn trống </Text>
+                <Text style={{fontSize : 20 , fontWeight :'700' }}>Chọn bàn </Text>
             </View>
             <TouchableOpacity style={styles.typeBtn}
                 onPress={() => {
@@ -210,13 +210,13 @@ const Items = ({ navigation }) => {
                     }}
                 />
             </View>) : null}
-            <SafeAreaView style={{height : '30%'}}>
+            <SafeAreaView style={{height : '80%'}}>
             <FlatList data={tableClose}
                 numColumns={2}
                 renderItem={({ item, index }) => {
                     return (
                         <View style={styles.container}>
-                            <View style={styles.box}>
+                            <View style={styles.box(item.data.status ? '#47BF34':'#fff')}>
                                 <Text style={{ fontSize: 20, fontWeight: '700' }}>{item.data.name}</Text>
                                 <TouchableOpacity style={{
                                     height: 40, width: 100, borderRadius: 10, backgroundColor: '#FFFF99',
@@ -255,86 +255,6 @@ const Items = ({ navigation }) => {
             >
             </FlatList>
             </SafeAreaView>
-            <View style={{width:'90%' , height : 50 ,marginTop:5,  borderBottomWidth: 2 ,marginLeft : 20
-            ,justifyContent : 'center'}}>
-                <Text style={{fontSize : 20 , fontWeight :'700' }}>Bàn bàn có khách </Text>
-            </View>
-            <TouchableOpacity style={styles.typeBtn}
-                onPress={() => {
-                    setClickedOpen(!clickOpen)
-                }}
-            >
-                <Text>{selectOpen}</Text>
-                {clickOpen ? (
-                    <Image source={require('../image/up-arrow.png')} style={{ width: 20, height: 20 }}></Image>
-                ) : (
-                    <Image source={require('../image/down.png')} style={{ width: 20, height: 20 }}></Image>
-                )}
-
-            </TouchableOpacity>
-            {clickOpen ? (<View style={styles.dropdownArea}>
-                <FlatList data={dataarea}
-                    renderItem={({ item, index }) => {
-                        return (
-                            <TouchableOpacity style={styles.typeItem}
-                            onPress={()=>{
-                                setSelectOpen(item.data.name)
-                                //setIdArea(item.id)
-                                setClickedOpen(false)
-                                dataTableOpen(item.id)
-                                
-                            }}>
-                                <Text>{item.data.name}</Text>
-                            </TouchableOpacity>
-                        )
-                    }}
-                />
-            </View>) : null}
-            <SafeAreaView style={{height:'35%'}}>
-                <FlatList data={tableOpen}
-                    numColumns={2}
-                    renderItem={({ item, index }) => {
-                        return (
-                            <View style={styles.container}>
-                                <View style={styles.box}>
-                                    <Text style={{ fontSize: 20, fontWeight: '700' }}>{item.data.name}</Text>
-                                    <TouchableOpacity style={{
-                                        height: 40, width: 100, borderRadius: 10, backgroundColor: '#FFFF99',
-                                        marginTop: 10, alignItems: "center", justifyContent: 'center', flexDirection: 'row',
-                                    }}
-                                        onPress={() => {
-                                            if (checkTable(item) == true) {
-                                                let idBill = ''
-                                                let tempData = []
-                                                tempData = itemBill
-                                                tempData.map(itm => {
-                                                    if (itm.data.idTable == item.id) {
-                                                        idBill = itm.id
-                                                    }
-                                                })
-                                                navigation.navigate('Oder', { id: idBill })
-                                            } else {
-                                                console.log('flase')
-                                                saveBillTable(item.id, item.data.name),
-                                                    navigation.navigate('Oder', { id: billId })
-                                            }
-
-                                            //saveBillTable(item.id,item.data.name),
-                                            //navigation.navigate('Oder',{id: billId}) 
-                                        }}
-                                    >
-
-                                        <Text style={{ fontSize: 18, fontWeight: '700' }}>Add </Text>
-                                        <Image source={require('../image/cart-plus-solid.png')} style={{ width: 20, height: 20 }}></Image>
-                                    </TouchableOpacity>
-
-                                </View>
-                            </View>
-                        )
-                    }}
-                >
-                </FlatList>
-            </SafeAreaView>
         </SafeAreaView>
 
     )
@@ -346,16 +266,16 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
-    box: {
+    box: color =>( {
         width: 150,
         height: 150,
         margin: 10,
-        backgroundColor: '#fff',
+        backgroundColor: color,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
         elevation: 5
-    },
+    }),
     pickBtn: {
         width: '90%',
         height: 50,

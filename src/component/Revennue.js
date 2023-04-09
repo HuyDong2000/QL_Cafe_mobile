@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useRoute } from '@react-navigation/native'
 
-const Revennue = () => {
+const Revennue = ({navigation}) => {
     const route = useRoute()
     const [items, setItems] = useState([])
     const [data, setData] = useState([])
@@ -165,12 +165,7 @@ const Revennue = () => {
                                         <Text style={{ fontSize: 20, fontWeight: '700' }}>{item.data.nameTable}</Text>
                                     </View>
                                     <View style={{ width: '50%', flexDirection: 'row-reverse', alignSelf: 'center', marginLeft: 30 }}>
-                                        <TouchableOpacity
-                                            onPress={() => { navigation.navigate('BillTableDetail', { id: item.id }) }}
-                                        >
-                                            <Image source={require('../image/angle-right-solid.png')}
-                                                style={{ width: 20, height: 20, marginTop: 4, marginRight: 10 }}></Image>
-                                        </TouchableOpacity>
+                                        
                                         <Text style={{ fontSize: 20, fontWeight: '700', color: '#009966', marginRight: 10 }}>{'$ ' + Format(getTotal(item.data.cart))}</Text>
 
                                     </View>

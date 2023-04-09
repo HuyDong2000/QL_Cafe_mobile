@@ -98,9 +98,7 @@ const AddFood = () => {
     return (
         
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Add Food</Text>
-            </View>
+            
             {imageData  != null ? ( <Image source={{uri: imageData.assets[0].uri }}
             style={styles.imageStyle}/>):null}
             <TextInput placeholder='Enter Item Name' style={styles.inputStyle} 

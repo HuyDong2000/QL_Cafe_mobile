@@ -1,173 +1,177 @@
-import React, { useEffect, useState } from 'react';
-import { View, Button, Text, TouchableOpacity ,Image,StyleSheet,FlatList,SafeAreaView} from 'react-native';
+import React, { Component } from 'react';
+import {
+    Text, StyleSheet, View, SafeAreaView, StatusBar, Image, TextInput, KeyboardAvoidingView, ScrollView
+    , TouchableOpacity, Button, FlatList
+} from 'react-native';
 
-import { utils } from '@react-native-firebase/app';
-import storage from '@react-native-firebase/storage';
+import uuid from 'react-native-uuid'
+import { create } from 'react-test-renderer';
+/* man hinh ban  */
+import { useEffect, useState } from 'react'
+
 import firestore from '@react-native-firebase/firestore';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const Vidu = () => {
-  const [datedata, setdatedata] = useState([])
-  const [selectDate,setSelectData] = useState('Select date')
-  const [dataDate,setDataDate] = useState('')
-  const [dataModth,setDataModth] = useState('')
-  const [dataYear,setDataYear] = useState('')
-  const [clicked, setClicked] = useState(false);
-  const [dataarea,setDataArea] = useState([])
-  const [select,setSelect] = useState('Select Items')
-  const [idArea,setIdArea] = useState('')
-  const [itemsClose, setItemsClose] = useState([]);
-  const [tableClose,setTableClose] = useState([])
- 
-  // create bucket storage reference to not yet existing image
-  useEffect(() => {
-    getItemsArea()
-    getItemsClose()
-    // console.log(date)
-}, [])
-const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+const Items = ({ navigation }) => {
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+    const [itemsOpen, setItemsOpen] = useState([]);
+    const [itemsClose, setItemsClose] = useState([]);
+    const [idTable, setIdTable] = useState('')
+    const [nameTable, setNameTable] = useState('')
+    const [statusBill, setStatusBill] = useState(true)
+    const [clicked, setClicked] = useState(false);
+    const [clickOpen, setClickedOpen] = useState(false);
+    const [itemBill, setDataBill] = useState([])
+    const [tableClose,setTableClose] = useState([])
+    const [tableOpen,setTableOpen] = useState([])
+    const [dataarea,setDataArea] = useState([])
+    const [select,setSelect] = useState('Select Items')
+    const [selectOpen,setSelectOpen] = useState('Select Items')
+    useEffect(() => {
+        getItemsClose()
+       
+        getItemsArea()
+    }, [])
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    //console.warn("A date has been picked: ", date);
-    const dt = new Date(date)
-    const x = dt.toISOString().split('T')
-    const x1 = x[0].split('-')
-    console.log(x1[2] + '/' + x1[1] + '/' + x1[0])
-    setSelectData(x1[2] + '/' + x1[1] + '/' + x1[0])
-    setDataDate(x1[2])
-    setDataModth(x1[1])
-    setDataYear(x1[0])
-    hideDatePicker();
-  };
-
-  const sosanh = () => {
-    firestore()
-      .collection('data')
-      // Filter results
-      .where('datedata', '<=', date)
-      // Limit results
-      .get()
-      .then(querySnapshot => {
-        console.log('Total date: ', querySnapshot.size);
-        let tempData = []
-        querySnapshot.forEach(documentSnapshot => {
-            console.log('Date ID: ', documentSnapshot.id, documentSnapshot.data());
-            tempData.push({
-                id: documentSnapshot.id,
-                data: documentSnapshot.data(),
-            })
-        });
-        setdatedata(tempData)
-      });
-  }
-  const getItems = () => {
-    firestore()
-        .collection('date')
+    const getItemsOpen = () => {
+        firestore()
+        .collection('table')
+        // Filter results
+        .where('status', '==', true)
+        // Limit results
         .get()
         .then(querySnapshot => {
-            console.log('Total date: ', querySnapshot.size);
+            console.log('Total Table Open: ', querySnapshot.size);
             let tempData = []
             querySnapshot.forEach(documentSnapshot => {
-                console.log('Date ID: ', documentSnapshot.id, documentSnapshot.data());
+                console.log('Table ID: ', documentSnapshot.id, documentSnapshot.data());
                 tempData.push({
                     id: documentSnapshot.id,
                     data: documentSnapshot.data(),
                 })
             });
-            setdatedata(tempData)
-            
+            setItemsOpen(tempData)
         });
-        console.log('Time')
-        console.log(datedata)
-}
-const getItemsArea = () => {
-  firestore()
-      .collection('area')
-      .get()
-      .then(querySnapshot => {
-          console.log('Total area: ', querySnapshot.size);
-          let tempData = []
-          querySnapshot.forEach(documentSnapshot => {
-              console.log('Area ID: ', documentSnapshot.id, documentSnapshot.data());
-              tempData.push({
-                  id: documentSnapshot.id,
-                  data: documentSnapshot.data(),
-              })
-          });
-          setDataArea(tempData)
-          
-      });
-}
-
-  const addtime = () => {
-    let datatime = new Date()
-    console.log(datatime.toString())
-    firestore()
-      .collection('date')
-      .add({
-        date: datatime
-      })
-      .then(() => {
-        console.log('User added!');
-      });
-  }
-  const getItemsClose = () =>{
-    firestore()
-    .collection('table')
-    // Filter results
-    .where('status', '==', false)
-    // Limit results
-    .get()
-    .then(querySnapshot => {
-        console.log('Total Table Close: ', querySnapshot.size);
-        let tempData = []
-        querySnapshot.forEach(documentSnapshot => {
-            console.log('Table ID: ', documentSnapshot.id, documentSnapshot.data());
-            tempData.push({
-                id: documentSnapshot.id,
-                data: documentSnapshot.data(),
+    }
+    const getItemsClose = () =>{
+        firestore()
+        .collection('table')
+        // Filter results
+        //.where('status', '==', false)
+        // Limit results
+        .get()
+        .then(querySnapshot => {
+            console.log('Total Table Close: ', querySnapshot.size);
+            let tempData = []
+            querySnapshot.forEach(documentSnapshot => {
+                console.log('Table ID: ', documentSnapshot.id, documentSnapshot.data());
+                tempData.push({
+                    id: documentSnapshot.id,
+                    data: documentSnapshot.data(),
+                })
+            });
+            setItemsClose(tempData)
+        });
+    }
+    const getItemsBill = () => {
+        firestore()
+            .collection('billtable')
+            // Filter results
+            .where('statusBill', '==', true)
+            // Limit results
+            .get()
+            .then(querySnapshot => {
+                console.log('Total Bill: ', querySnapshot.size);
+                let tempData = []
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log('Bill ID: ', documentSnapshot.id, documentSnapshot.data());
+                    tempData.push({
+                        id: documentSnapshot.id,
+                        data: documentSnapshot.data(),
+                    })
+                });
+                setDataBill(tempData)
+            });
+    }
+    const billId = uuid.v4()
+    const saveBillTable = (idTable, nameTable) => {
+        firestore()
+            .collection('billtable')
+            .doc(billId)
+            .set({
+                idTable: idTable,
+                nameTable: nameTable,
+                statusBill: statusBill,
+                idBill: billId,
+                statusProduct: true,
+                cart: [],
             })
-        });
-        setItemsClose(tempData)
-    });
-}
-  const checkTT = () =>{
-    datedata.map(item => {
-      let dt = new Date(item.data.date.seconds * 1000 + item.data.date.nanoseconds/1000000)
-      if(parseInt(dataDate) < parseInt(dt.getDate())) {
-        console.log(dt.getDate())
-      }else{
-        console.log('null')
+            .then(() => {
+                console.log('User added!');
+            });
+        console.log(statusBill)
+        console.log(idTable)
+        console.log(nameTable)
+        console.log(billId)
+        firestore()
+            .collection('table')
+            .doc(idTable)
+            .update({
+                status: true
+            })
+            .then(() => {
+                console.log('User updated!');
+            });
+    }
+    const checkTable = (item) => {
+        let check = false
+        let tempData = []
+        tempData = itemBill
+        tempData.map(itm => {
+            if (itm.data.idTable == item.id) {
+                check = true
+            }
+        })
+        return check
+    }
+    const getItemsArea = () => {
+        firestore()
+            .collection('area')
+            .get()
+            .then(querySnapshot => {
+                console.log('Total area: ', querySnapshot.size);
+                let tempData = []
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log('Area ID: ', documentSnapshot.id, documentSnapshot.data());
+                    tempData.push({
+                        id: documentSnapshot.id,
+                        data: documentSnapshot.data(),
+                    })
+                });
+                setDataArea(tempData)
+                
+            });
       }
-    })
-  }
-  const dataTableClose = (id) =>{
-    let tempData = []
-    itemsClose.map(itm => {
-      if(itm.data.idArea == id){
-        tempData.push(itm)
+    const dataTableClose = (id) =>{
+        let tempData = []
+        console.log('dau vao')
+        console.log(id)
+        itemsClose.map(itm => {
+          if(itm.data.idArea == id){
+            tempData.push(itm)
+            console.log(itm.data.name)
+          }
+        })
+       
+        setTableClose(tempData)
+       
       }
-    })
-    console.log('Table truoc ')
-    console.log(itemsClose)
-    console.log('id')
-    console.log(id)
-    console.log('Table')
-    console.log(tempData)
-    setTableClose(tempData)
-   
-  }
-  return (
-    <View style={{flex:1 , alignItems:'center'}}>
-       <TouchableOpacity style={styles.typeBtn}
+    return (
+        <SafeAreaView style={{flex : 1 ,margin : 5 ,backgroundColor:'#fff'}}>
+             <View style={{width:'90%' , height : 50 ,marginTop:5,  borderBottomWidth: 1 ,marginLeft : 20
+            ,justifyContent : 'center'}}>
+                <Text style={{fontSize : 20 , fontWeight :'700' }}>Bàn trống </Text>
+            </View>
+            <TouchableOpacity style={styles.typeBtn}
                 onPress={() => {
                     setClicked(!clicked)
                 }}
@@ -186,10 +190,11 @@ const getItemsArea = () => {
                         return (
                             <TouchableOpacity style={styles.typeItem}
                             onPress={()=>{
+                              let id = item.id
                                 setSelect(item.data.name)
-                                setIdArea(item.id)
+                                //setIdArea(item.id)
                                 setClicked(false)
-                                dataTableClose(item.id)
+                                dataTableClose(id)
                                 
                             }}>
                                 <Text>{item.data.name}</Text>
@@ -198,38 +203,38 @@ const getItemsArea = () => {
                     }}
                 />
             </View>) : null}
-            <SafeAreaView style={{width:'90%',height:'40%',backgroundColor:'red'}}>
+            <SafeAreaView style={{height : '80%'}}>
             <FlatList data={tableClose}
                 numColumns={2}
                 renderItem={({ item, index }) => {
                     return (
                         <View style={styles.container}>
-                            <View style={styles.box}>
+                            <View style={styles.box(item.data.status ? '#fff':'#47BF34')}>
                                 <Text style={{ fontSize: 20, fontWeight: '700' }}>{item.data.name}</Text>
                                 <TouchableOpacity style={{
                                     height: 40, width: 100, borderRadius: 10, backgroundColor: '#FFFF99',
                                     marginTop: 10, alignItems: "center", justifyContent: 'center', flexDirection: 'row',
                                 }}
-                                    // onPress={() => {
-                                    //     if (checkTable(item) == true) {
-                                    //         let idBill = ''
-                                    //         let tempData = []
-                                    //         tempData = itemBill
-                                    //         tempData.map(itm => {
-                                    //             if (itm.data.idTable == item.id) {
-                                    //                  idBill = itm.id
-                                    //             }
-                                    //         })
-                                    //         navigation.navigate('Oder', { id: idBill })
-                                    //     } else {
-                                    //         console.log('flase')
-                                    //         saveBillTable(item.id, item.data.name),
-                                    //             navigation.navigate('Oder', { id: billId })
-                                    //     }
+                                    onPress={() => {
+                                        if (checkTable(item) == true) {
+                                            let idBill = ''
+                                            let tempData = []
+                                            tempData = itemBill
+                                            tempData.map(itm => {
+                                                if (itm.data.idTable == item.id) {
+                                                     idBill = itm.id
+                                                }
+                                            })
+                                            //navigation.navigate('Oder', { id: idBill })
+                                        } else {
+                                            console.log('flase')
+                                            //saveBillTable(item.id, item.data.name),
+                                               // navigation.navigate('Oder', { id: billId })
+                                        }
 
-                                    //     //saveBillTable(item.id,item.data.name),
-                                    //     //navigation.navigate('Oder',{id: billId}) 
-                                    // }}
+                                        //saveBillTable(item.id,item.data.name),
+                                        //navigation.navigate('Oder',{id: billId}) 
+                                    }}
                                 >
 
                                     <Text style={{ fontSize: 18, fontWeight: '700' }}>Add </Text>
@@ -243,92 +248,77 @@ const getItemsArea = () => {
             >
             </FlatList>
             </SafeAreaView>
-      <View style={{flexDirection:'row',width:'90%',height:50,borderRadius:10,elevation:5,alignItems:'center'}}>
-        <Text style={{marginLeft:30}}>Ngay bat dau : </Text>
-        <Text>{selectDate}</Text>
-        <TouchableOpacity
-        onPress={showDatePicker}
-        >
-          <Image source={require('../image/logo.jpg')} style={{width:30,height:30}}></Image>
-        </TouchableOpacity>
-      </View>
-    <Button title={selectDate} onPress={showDatePicker} />
-    <DateTimePickerModal
-      isVisible={isDatePickerVisible}
-      mode="date"
-      onConfirm={handleConfirm}
-      onCancel={hideDatePicker}
-    />
-    <TouchableOpacity onPress={checkTT}> 
-      <Text>Check</Text>
-    </TouchableOpacity>
-  </View>
-  );
-}
-export default Vidu
+        </SafeAreaView>
 
+    )
+}
+
+export default Items;
 const styles = StyleSheet.create({
-  pickBtn: {
-    width: '90%',
-    height: 50,
-    borderWidth: 0.5,
-    borderRadius: 10,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-},
-typeBtn: {
-    width: '90%',
-    height: 50,
-    borderRadius: 10,
-    borderWidth: 1,
-    alignSelf: 'center',
-    marginTop: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingLeft: 15,
-    paddingRight: 15,
-},
-dropdownArea: {
-  elevation: 5,
-  marginTop: 20,
-  height: 100,
-  alignSelf: 'center',
-  width: '90%',
-  backgroundColor: '#fff',
-  borderRadius: 10,
-},
-typeItem: {
-  width: '85%',
-  height: 50,
-  borderBottomWidth: 0.2,
-  borderBottomColor: '#8e8e8e',
-  alignSelf: 'center',
-  justifyContent: 'center',
-},
-dropdownArea: {
-  elevation: 5,
-  marginTop: 20,
-  height: 150,
-  alignSelf: 'center',
-  width: '90%',
-  backgroundColor: '#fff',
-  borderRadius: 10,
-},
-container: {
-  flex: 1,
-  alignItems: 'center',
-},
-box: {
-  width: 150,
-  height: 150,
-  margin: 10,
-  backgroundColor: '#fff',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: 10,
-  elevation: 5
-},
+    container: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    box: color =>(
+      {
+        width: 150,
+        height: 150,
+        margin: 10,
+        backgroundColor: color,//'#fff'
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        elevation: 5
+    }
+    ) ,
+    pickBtn: {
+        width: '90%',
+        height: 50,
+        borderWidth: 0.5,
+        borderRadius: 10,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
+    typeBtn: {
+        width: '90%',
+        height: 50,
+        borderRadius: 10,
+        borderWidth: 1,
+        alignSelf: 'center',
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    dropdownArea: {
+      elevation: 5,
+      marginTop: 20,
+      height: 100,
+      alignSelf: 'center',
+      width: '90%',
+      backgroundColor: '#fff',
+      borderRadius: 10,
+    },
+    typeItem: {
+      width: '85%',
+      height: 50,
+      borderBottomWidth: 0.2,
+      borderBottomColor: '#8e8e8e',
+      alignSelf: 'center',
+      justifyContent: 'center',
+    },
+    dropdownArea: {
+      elevation: 5,
+      marginTop: 20,
+      height: 150,
+      alignSelf: 'center',
+      width: '90%',
+      backgroundColor: '#fff',
+      borderRadius: 10,
+    },
 })
+//navigation.navigate('Oder') ,

@@ -98,8 +98,9 @@ const PrintBill = ({navigation}) =>{
     return(
         <View style={styles.container}>
             <View style={{height:50 , flexDirection:'row-reverse',width:'90%'}}>
-                <TouchableOpacity onPress={() => { setcheck(!check) }} style={{flexDirection:'row-reverse',alignItems:'center'}}>
-                    <Image source={require('../image/edit.png')} style={{ width: 20, height: 20,marginLeft:5 }}></Image>
+                <TouchableOpacity onPress={() => {  navigation.navigate('Print')}} style={{flexDirection:'row-reverse',alignItems:'center'}}
+                >
+                    <Image source={require('../image/print.jpg')} style={{ width: 20, height: 20,marginLeft:5 }}></Image>
                     <Text style={{ fontSize: 16, fontWeight: '500' ,marginLeft : 5}}>Sửa</Text>
                 </TouchableOpacity>
 

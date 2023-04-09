@@ -38,9 +38,7 @@ const AddStaff = () => {
     return (
         <ScrollView>
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Sửa nhân viên </Text>
-            </View>
+           
             <TextInput placeholder='Họ tên ' style={styles.inputStyle} 
             value={name}
             onChangeText={text => setName(text)}

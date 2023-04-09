@@ -40,7 +40,7 @@ const EmployeeSalaryDetail = ({ navigation }) => {
             .then(() => {
                 console.log('User added!');
             });
-            navigation.navigate('SalaryManagement')
+            navigation.navigate('ListStaffSalary')
     }
     const getItemsArea = () => {
         firestore()

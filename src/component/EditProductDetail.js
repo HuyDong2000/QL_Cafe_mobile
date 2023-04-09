@@ -7,6 +7,7 @@ import { utils } from '@react-native-firebase/app';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { PermissionsAndroid } from 'react-native';
 import {useRoute} from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const EditProductDetail = () => {
     const route = useRoute()
@@ -98,11 +99,8 @@ const EditProductDetail = () => {
     }
 
     return (
-        
+        <SafeAreaView>
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Edit Product</Text>
-            </View>
             {imageData  != null ? ( <Image source={{uri: imageData.assets[0].uri }}
             style={styles.imageStyle}/>):null}
             <TextInput placeholder='Enter Item Name' style={styles.inputStyle} 
@@ -156,6 +154,7 @@ const EditProductDetail = () => {
                 <Text>Upload</Text>
             </TouchableOpacity>
         </View>
+        </SafeAreaView>
        
     )
 }

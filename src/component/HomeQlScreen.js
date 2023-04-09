@@ -24,7 +24,7 @@ const HomeQlScreen = ({ navigation }) => {
 
                     <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={styles.box}
-                            onPress={() => { navigation.navigate('ListEditTable') }}
+                            onPress={() => { navigation.navigate('EditTable') }}
                         >
                             <Text style={styles.titleText}> Quản lý bàn </Text>
                         </TouchableOpacity>
@@ -54,7 +54,7 @@ const HomeQlScreen = ({ navigation }) => {
                             <Text style={styles.titleText}>Quản lý khu vực  </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.box}
-                            onPress={() => { navigation.navigate('SalaryManagement') }}
+                            onPress={() => { navigation.navigate('ListStaffSalary') }}
                         >
                             <Text style={styles.titleText}>Quản lý lương </Text>
                         </TouchableOpacity>

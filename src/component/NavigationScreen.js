@@ -46,6 +46,8 @@ import ListStaffSalary from './ListStaffSalary.js';
 import ListStaffSalaryDetail from './ListStaffSalaryDetail.js';
 import SalaryManagement from './SalaryManagement.js';
 
+import Print from './Print.js'
+
 import AreaScreen from './areaScreen.js';
 import AddArea from './AddArea.js';
 import EditArea from './EditArea.js';
@@ -61,7 +63,6 @@ export default function MainScreen(){
                 <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='Oder' component={App} ></Stack.Screen>
                 <Stack.Screen name='Table' component={Table}></Stack.Screen>
-                <Stack.Screen name='editTable' component={EditTable}></Stack.Screen>
                 <Stack.Screen name='Cart' component={Cart} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='BillTable' component={BillTable}></Stack.Screen>
                 <Stack.Screen name='BillTableDetail' component={BillTableDetail} options={{ headerShown: false }}></Stack.Screen>
@@ -74,37 +75,36 @@ export default function MainScreen(){
                 <Stack.Screen name='CupTable' component={CupTable} ></Stack.Screen>
                 <Stack.Screen name='ScreenCup' component={ScreenCup} ></Stack.Screen>
                 <Stack.Screen name='StaffInfor' component={StaffInfor} options={{ headerShown: false }}></Stack.Screen>
+                <Stack.Screen name='Print' component={Print} ></Stack.Screen>
 
                 <Stack.Screen name='LoginAdmin' component={LoginAdmin} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='HomeQlScreen' component={HomeQlScreen} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='ListEditProduct' component={ListEditProduct} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='DetailProduct' component={DetailProduct} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='AddFood' component={AddPFood} options={{ headerShown: false }}></Stack.Screen>
+                <Stack.Screen name='DetailProduct' component={DetailProduct} ></Stack.Screen>
+                <Stack.Screen name='AddFood' component={AddPFood} ></Stack.Screen>
 
-                <Stack.Screen name='ListEditTable' component={ListEditTable}></Stack.Screen>
+                <Stack.Screen name='EditTable' component={ListEditTable} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='DetailTable' component={DetailTable}></Stack.Screen>
                 <Stack.Screen name='AddTable' component={AddTable}></Stack.Screen>
 
-                <Stack.Screen name='EditType' component={EditType}></Stack.Screen>
+                <Stack.Screen name='EditType' component={EditType} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='EditTypeDetail' component={EditTypeDetail}></Stack.Screen>
                 <Stack.Screen name='AddType' component={AddType}></Stack.Screen>
 
                 <Stack.Screen name='AreaScreen' component={AreaScreen} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='AddArea' component={AddArea} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='EditArea' component={EditArea} options={{ headerShown: false }}></Stack.Screen>
+                <Stack.Screen name='AddArea' component={AddArea} ></Stack.Screen>
+                <Stack.Screen name='EditArea' component={EditArea} ></Stack.Screen>
                 
-                <Stack.Screen name='ScreenSatff' component={ScreenSatff}></Stack.Screen>
+                <Stack.Screen name='ScreenSatff' component={ScreenSatff} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='EditSatff' component={EditSatff}></Stack.Screen>
                 <Stack.Screen name='AddStaff' component={AddStaff}></Stack.Screen>
                 <Stack.Screen name='RevennueToDay' component={RevennueToDay} ></Stack.Screen>
                 <Stack.Screen name='Revennue' component={Revennue1} ></Stack.Screen> 
 
-                <Stack.Screen name='SalaryManagement' component={SalaryManagement} options={{ headerShown: false }}></Stack.Screen>
                 <Stack.Screen name='ListStaffSalary' component={ListStaffSalary} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='ListStaffSalaryDetail' component={ListStaffSalaryDetail} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='EmployeeSalary' component={EmployeeSalary} options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name='EmployeeSalaryDetail' component={EmployeeSalaryDetail} options={{ headerShown: false }}></Stack.Screen>
-
+                <Stack.Screen name='ListStaffSalaryDetail' component={ListStaffSalaryDetail} ></Stack.Screen>
+                <Stack.Screen name='EmployeeSalary' component={EmployeeSalary} ></Stack.Screen>
+                <Stack.Screen name='EmployeeSalaryDetail' component={EmployeeSalaryDetail} ></Stack.Screen>
         </Stack.Navigator>
     </NavigationContainer>
     )

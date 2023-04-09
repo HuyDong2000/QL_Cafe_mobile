@@ -112,18 +112,22 @@ const Revennue = () => {
             });
     }
     const checkDate = (item) => {
-        // let date = new Date()
-        // let datenew = date.getDate()
-        // let monthnew = date.getMonth() + 1
+       
         let datedata = new Date(item.seconds * 1000 + item.nanoseconds / 1000000)
         let data1 = datedata.getDate()
         let month = datedata.getMonth() + 1
-        if ((parseInt(data1) >= parseInt(dataDate) && parseInt(dataModth) == parseInt(month))
-            && (parseInt(data1) <= parseInt(dataDateEnd) && parseInt(dataModthEnd) == parseInt(month))) {
-            console.log(new Date(item.seconds * 1000 + item.nanoseconds / 1000000))
+        if(parseInt(month) == parseInt(dataModth) ){//trong thang
+            if(parseInt(data1) >= parseInt(dataDate) && parseInt(data1) <= 31){
+                return true
+            }
+        }
+        if(parseInt(month) > parseInt(dataModth)&&parseInt(month) < parseInt(dataModthEnd)){//thang trong khoang
             return true
-        } else {
-            console.log('null')
+        }
+        if(parseInt(month) == parseInt(dataModthEnd) ){//thang ket thuc
+            if(parseInt(data1) <= parseInt(dataDateEnd)){
+                return true
+            }
         }
     }
     const FormatDate = (item) =>{
@@ -300,16 +304,9 @@ const Revennue = () => {
                                     <View style={{ justifyContent: 'center', width: '40%', marginLeft: 30 }}>
                                     <Text style={{fontSize:20,fontWeight:'700'}}>{FormatDate(item.data.date)+ '/' + FormatMonth(item.data.date) + '/' + FormatYear(item.data.date)}</Text>
                                     </View>
-                                    <View style={{ width: '50%', flexDirection: 'row-reverse', alignSelf: 'center', marginLeft: 30 }}>
-                                        <TouchableOpacity
-                                            onPress={() => { navigation.navigate('BillTableDetail', { id: item.id }) }}
-                                        >
-                                            <Image source={require('../image/angle-right-solid.png')}
-                                                style={{ width: 20, height: 20, marginTop: 4, marginRight: 10 }}></Image>
-                                                
-                                        </TouchableOpacity>
+                                    <View style={{ width: '50%', flexDirection: 'row-reverse', alignSelf: 'center', marginLeft: 30 ,}}>
                                        
-                                        <Text style={{fontSize:20,fontWeight:'700'}}>{Format(item.data.salary)}</Text>
+                                        <Text style={{fontSize:20,fontWeight:'700',marginRight:20}}>{Format(item.data.salary)}</Text>
                                     </View>
                                 </View>
                             </View>
